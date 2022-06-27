@@ -1,0 +1,27 @@
+name: Require Label Prefix
+description: Require a label prefix by either commenting or adding a default label
+inputs:
+  secret:
+    description: Secret
+    required: true
+  prefix:
+    description: Label prefix to require
+    required: true
+  labelSeparator:
+    description: Label separator
+    required: false
+    default: "/"
+  addLabel:
+    description: Whether or not to add a label if the prefix is missing
+    required: false
+    default: "false"
+  defaultLabel:
+    description: Default label to add if addLabel is set
+    required: false
+  onlyMilestone:
+    description: Only check issues that are part of a milestone
+    required: false
+    default: "false"
+runs:
+  using: docker
+  image: docker://ghcr.io/trstringer/require-label-prefix:0.1.0
