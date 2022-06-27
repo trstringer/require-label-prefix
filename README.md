@@ -10,10 +10,10 @@ steps:
     with:
       secret: ${{ github.TOKEN }}
 
-      # labelPrefix is set to whatever prefix you are trying to enforce. For
+      # Prefix is set to whatever prefix you are trying to enforce. For
       # instance, if you want to make sure size labels (e.g. "size/S", "size/L")
       # are enforced, the prefix would be "size".
-      labelPrefix: size
+      prefix: size
 
       # The labelPrefix is divided by the suffix by some separator. This defaults
       # to "/" and is typically this, but it could be anything (e.g. ":").
