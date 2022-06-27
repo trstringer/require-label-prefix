@@ -1,11 +1,7 @@
-/*
-Copyright © 2022 NAME HERE <EMAIL ADDRESS>
-
-*/
 package main
 
-import "github.com/trstringer/require-label-prefix/cmd"
+import "fmt"
 
 func main() {
-	cmd.Execute()
+	fmt.Println("hello world")
 }
