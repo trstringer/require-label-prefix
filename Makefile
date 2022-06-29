@@ -15,3 +15,7 @@ push:
 		exit 1; \
 	fi
 	docker push $(IMAGE_REPO):$$VERSION
+
+.PHONY: test
+test:
+	go test -v ./...
