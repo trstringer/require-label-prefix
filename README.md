@@ -1,5 +1,7 @@
 # GitHub Action - Require Label Prefix
 
+[![CI](https://github.com/trstringer/require-label-prefix/actions/workflows/main.yaml/badge.svg)](https://github.com/trstringer/require-label-prefix/actions/workflows/main.yaml)
+
 Use this GitHub action to either warn or add a default label based on prefixes.
 
 ## Usage
