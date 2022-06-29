@@ -48,7 +48,7 @@ func processIssues(ctx context.Context, githubClient *github.Client, config *con
 			State: "open",
 		})
 	if err != nil {
-		return fmt.Errorf("error getting issues: %v", err)
+		return fmt.Errorf("error getting issues: %w", err)
 	}
 
 	for _, issue := range issuesToModify(issues, config) {
@@ -61,13 +61,16 @@ func processIssues(ctx context.Context, githubClient *github.Client, config *con
 
 		var comment string
 		if config.addLabel {
-			githubClient.Issues.AddLabelsToIssue(
+			_, _, err := githubClient.Issues.AddLabelsToIssue(
 				ctx,
 				config.repoOwner,
 				config.repoName,
 				issue.GetNumber(),
 				[]string{config.defaultLabel},
 			)
+			if err != nil {
+				return fmt.Errorf("error adding labels to issue: %w", err)
+			}
 			comment = fmt.Sprintf("Added default label `%s`. Please consider re-labeling this issue appropriately.", config.defaultLabel)
 		} else {
 			comment = fmt.Sprintf(
@@ -84,7 +87,7 @@ func processIssues(ctx context.Context, githubClient *github.Client, config *con
 			&github.IssueComment{Body: &comment},
 		)
 		if err != nil {
-			return fmt.Errorf("error adding comment: %v", err)
+			return fmt.Errorf("error adding comment: %w", err)
 		}
 	}
 
