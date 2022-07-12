@@ -40,17 +40,28 @@ func issuesToModify(issues []*github.Issue, config *configuration) []*github.Iss
 }
 
 func processIssues(ctx context.Context, githubClient *github.Client, config *configuration) error {
-	issues, _, err := githubClient.Issues.ListByRepo(
-		ctx,
-		config.repoOwner,
-		config.repoName,
-		&github.IssueListByRepoOptions{
-			State: "open",
-		})
-	if err != nil {
-		return fmt.Errorf("error getting issues: %w", err)
+	issues := []*github.Issue{}
+	page := 1
+	for page > 0 {
+		fmt.Printf("Reading issues for page %d\n", page)
+		issuesTemp, resp, err := githubClient.Issues.ListByRepo(
+			ctx,
+			config.repoOwner,
+			config.repoName,
+			&github.IssueListByRepoOptions{
+				State:       "open",
+				ListOptions: github.ListOptions{Page: page},
+			})
+		if err != nil {
+			return fmt.Errorf("error getting issues: %w", err)
+		}
+		fmt.Printf("Found %d issues\n", len(issuesTemp))
+		issues = append(issues, issuesTemp...)
+
+		page = resp.NextPage
 	}
 
+	fmt.Printf("Found a total of %d issues\n", len(issues))
 	for _, issue := range issuesToModify(issues, config) {
 		fmt.Printf(
 			"Issue #%d does not have the required label prefix: \"%s%s\"\n",
